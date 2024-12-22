@@ -4,7 +4,8 @@ for file in /mnt/c/Users/Administrator/Desktop/Task/BED/*.tagAlign; do
     macs2 callpeak -t "$file" -f AUTO -g hs -n "$(basename "$file")" --outdir /mnt/c/Users/Administrator/Desktop/Task/Peaks; 
 done
 
-Then i created the unionpeak using bedtools
+Then i created the unionpeak using bedtools:
+
 cat /mnt/c/Users/Administrator/Desktop/Task/Peaks/*.narrowPeak | sort -k1,1 -k2,2n | bedtools merge -i - > /mnt/c/Users/Administrator/Desktop/Task/Peaks/union_peaks.bed
 
 The rest was done in R. You will find two 2 scripts, one named Training and one named Final.
