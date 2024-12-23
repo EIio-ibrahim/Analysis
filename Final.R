@@ -44,7 +44,7 @@ print(count_data)
 count_matrix <- as.data.frame(count_data)
 colnames(count_matrix) <- names(tagalign_granges_list)
 
-# Creating a metadata matrix for the count_matrix
+# Creating a metadata matrix for the count_matrix,
 
 first_letter <- substr(names(tagalign_granges_list), 1, 1)
 print(first_letter)
