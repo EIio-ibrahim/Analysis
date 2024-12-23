@@ -52,16 +52,20 @@ count_matrix <- as.data.frame(count_data)
 # assigning  column names using the sample names in the list
 colnames(count_matrix) <- names(tagalign_granges_list)
 
-# Create a group label based on the sample names
+# Creating a metadata matrix for the count_matrix,
 
 first_letter <- substr(names(tagalign_granges_list), 1, 1)
 print(first_letter)
 group_labels <- ifelse( first_letter == "C", "Cancer", "Healthy")
-print(group_labels)
-
+sample_metadata <- data.frame(
+  sample = colnames(count_matrix),
+  condition = factor(group_labels)
+)
+print(sample_metadata)
+#Creating a DESeqDataSet
 
 dds <- DESeqDataSetFromMatrix(countData = count_matrix,
-                              colData = DataFrame(condition = factor(group_labels)),
+                              colData = sample_metadata,
                               design = ~ condition)
 # Run DESeq2 analysis
 dds <- DESeq(dds)
