@@ -5,7 +5,8 @@ library(dplyr)
 library(tidyr)
 library(DESeq2)
 library(ggplot2)
-# function to load a .tagAlign file and return a GRanges object
+
+# loading files into GRange objects
 load_tagalign <- function(file) {
   tag_data <- read.table(file, header = FALSE, stringsAsFactors = FALSE)
   colnames(tag_data) <- c("chrom", "start", "end")
@@ -17,11 +18,11 @@ load_tagalign <- function(file) {
   return(gr)
 }
 
-# List of all .tagAlign files 
+
 tagalign_dir <- "C:/Users/Administrator/Desktop/Task/BED"
 tagalign_files <- list.files(tagalign_dir, pattern = "\\.tagAlign$", full.names = TRUE)
 
-# Loading all the files into a list of GRanges objects
+
 tagalign_granges_list <- lapply(tagalign_files, load_tagalign)
 names(tagalign_granges_list) <- basename(tagalign_files)
 
@@ -54,18 +55,18 @@ sample_metadata <- data.frame(
   condition = factor(group_labels)
 )
 print(sample_metadata)
-#Creating a DESeqDataSet
+
+#Creating a DESeqDataSet and doing differential gene expression analysis 
 
 dds <- DESeqDataSetFromMatrix(countData = count_matrix,
                               colData = sample_metadata,
                               design = ~ condition)
-# Run DESeq2 analysis
 dds <- DESeq(dds)
 
 resu <- results(dds, contrast = c("condition", "Cancer", "Healthy"))
 
 
-# Create the plot
+# visualising results with a volcano plot
 volcano_plot <- ggplot(resu, aes(x = log2FoldChange, y = -log10(padj))) +
   geom_point(aes(color = padj < 0.01 & abs(log2FoldChange) > 1), size = 1, alpha = 0.6)+
   scale_color_manual(values = c("FALSE" = "grey", "TRUE" = "red"))
