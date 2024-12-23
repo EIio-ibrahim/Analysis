@@ -2,7 +2,6 @@ For the first step i used MACS2 in my terminal to find Peaks, this is the code i
 
 for file in /mnt/c/Users/Administrator/Desktop/Task/BED/*.tagAlign; do 
     macs2 callpeak -t "$file" -f AUTO -g hs -n "$(basename "$file")" --outdir /mnt/c/Users/Administrator/Desktop/Task/Peaks; 
-done
 
 Then i created the unionpeak using bedtools:
 
